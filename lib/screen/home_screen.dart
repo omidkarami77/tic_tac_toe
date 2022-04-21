@@ -7,16 +7,17 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-
 class _HomeState extends State<Home> {
   bool isTurnO = true;
+  List<String> xOrOList = ['', '', '', '', '', '', '', '', ''];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.grey[900],
         appBar: AppBar(
-          title: Text('دوز'),
+          title: Text('دوز', style: TextStyle(
+              color: Colors.white, fontSize: 25.0, fontWeight: FontWeight.bold),),
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.grey[900],
@@ -32,7 +33,10 @@ class _HomeState extends State<Home> {
                 height: 40,
               ),
               getGridView(),
-              getTurn(),
+              Padding(
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: getTurn()),
+
             ],
           ),
         ));
@@ -40,27 +44,33 @@ class _HomeState extends State<Home> {
 
   Widget getTurn() {
     return Text(
-      isTurnO ? 'Turn O' : 'Turn X',
+      isTurnO ? 'O بازیکن' : 'X بازیکن',
       style: TextStyle(
-          color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold),
+          color: Colors.white, fontSize: 25.0, fontWeight: FontWeight.bold),
     );
   }
 
   void tapped(int index) {
     setState(() {
-      isTurnO = !isTurnO;
+      if (isTurnO && xOrOList[index] == '') {
+        xOrOList[index] = 'O';
+        isTurnO = false;
+      }
+      if (!isTurnO && xOrOList[index] == '') {
+        xOrOList[index] = 'X';
+        isTurnO = true;
+      }
     });
 
     print('clicked ${index}');
   }
-
 
   Widget getGridView() {
     return Expanded(
       child: GridView.builder(
           itemCount: 9,
           gridDelegate:
-          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
@@ -71,6 +81,16 @@ class _HomeState extends State<Home> {
                 height: 100,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
+                ),
+                child: Center(
+                  child: Text(
+                    xOrOList[index],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                        fontSize: 40,
+                        color:
+                            xOrOList[index] == 'X' ? Colors.white : Colors.red),
+                  ),
                 ),
               ),
             );
@@ -87,15 +107,15 @@ class _HomeState extends State<Home> {
               Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
-                  'player O',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+                  'O بازیکن',
+                  style: TextStyle(color: Colors.white, fontSize: 25,fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
                   padding: EdgeInsets.all(8),
                   child: Text(
                     '0',
-                    style: TextStyle(color: Colors.white, fontSize: 25),
+                    style: TextStyle(color: Colors.white, fontSize: 25,fontWeight: FontWeight.bold),
                   )),
             ],
           ),
@@ -106,15 +126,15 @@ class _HomeState extends State<Home> {
               Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
-                  'player X',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+                  'X بازیکن',
+                  style: TextStyle(color: Colors.white, fontSize: 25,fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
                   padding: EdgeInsets.all(8),
                   child: Text(
                     '1',
-                    style: TextStyle(color: Colors.white, fontSize: 25),
+                    style: TextStyle(color: Colors.white, fontSize: 25,fontWeight: FontWeight.bold),
                   )),
             ],
           ),
